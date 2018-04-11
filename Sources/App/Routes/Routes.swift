@@ -2,23 +2,15 @@ import Vapor
 
 extension Droplet {
     func setupRoutes() throws {
-        get("hello") { req in
-            var json = JSON()
-            try json.set("hello", "world")
-            return json
+
+        get("divisions") { request -> ResponseRepresentable in
+            let ttResponse = try self.client.get("https://timetable.spbu.ru/api/v1/study/divisions")
+            return ttResponse
         }
 
-        get("plaintext") { req in
-            return "Hello, world!"
+        get("tt") { request -> ResponseRepresentable in
+            return try self.client.get("https://timetable.spbu.ru\(request.uri.path)")
         }
-
-        // response to requests to /info domain
-        // with a description of the request
-        get("info") { req in
-            return req.description
-        }
-
-        get("description") { req in return req.description }
         
         try resource("posts", PostController.self)
     }
