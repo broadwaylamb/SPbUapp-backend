@@ -8,6 +8,8 @@ extension Config {
 
         try setupProviders()
         try setupPreparations()
+
+        addConfigurable(middleware: TimetableRedirectMiddleware(), name: "timetableRedirect")
     }
     
     /// Configure providers
